@@ -1,0 +1,20 @@
+const Discord = require("discord.js")
+ 
+module.exports.run = async (bot, message, args) => {
+ 
+    message.delete()
+ 
+    let TicketEmbed = new Discord.RichEmbed()
+    .setColor("#cd5")
+    .setTitle("Ticket")
+    .setDescription("ta desc")
+    .setFooter("ton footer")
+ 
+    message.channel.send(TicketEmbed).then(async msg => {
+        msg.react("la reaction que ta mis pour créer le ticket dans le main.js")
+    })
+}
+ 
+module.exports.help = {
+    name: "nom de ta commande"
+}
