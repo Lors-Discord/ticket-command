@@ -1,0 +1,107 @@
+bot.on("messageReactionAdd", (reaction, user) => {
+    if(user.bot) return;
+    const message = reaction.message;
+    const member = message.guild.members.get(user.id)
+    const Ticket = message.guild.roles.find(`name`, 'role Qui a accès au ticket')
+    const everyone = message.guild.roles.find(`name`, '@everyone')
+
+    if(
+        ["émoji que tu veux mettre", "émoji que tu veux mettre"].includes(reaction.emoji.name)
+    ) {
+        switch(reaction.emoji.name) {
+
+            case "émoji que tu as mis en haut ( 1 ou 2 )":
+
+            var TicketList = [
+                "Mipha-Ticket-001",
+                "Mipha-Ticket-002",
+                "Mipha-Ticket-003",
+                "Mipha-Ticket-004",
+                "Mipha-Ticket-005",
+                "Mipha-Ticket-006",
+                "Mipha-Ticket-007",
+                "Mipha-Ticket-008",
+                "Mipha-Ticket-009",
+                "Mipha-Ticket-010",
+                "Mipha-Ticket-011",
+                "Mipha-Ticket-012",
+                "Mipha-Ticket-013",
+                "Mipha-Ticket-014",
+                "Mipha-Ticket-015",
+                "Mipha-Ticket-016",
+                "Mipha-Ticket-017",
+                "Mipha-Ticket-018",
+                "Mipha-Ticket-019",
+                "Mipha-Ticket-020"
+            ]
+
+            let result = Math.floor((Math.random() * TicketList.length))
+
+            let categoryID = "id de la catégorie";
+
+            var bool = false;
+
+            if(bool == true) return;
+
+            message.guild.createChannel(TicketList[result], "text").then((createChan) => {
+
+                createChan.setParent(categoryID).then((settedParent) => {
+                    settedParent.overwritePermissions(everyone, {
+                        "READ_MESSAGES": false
+                    });
+
+                    settedParent.overwritePermissions(member, {
+                        "SEND_MESSAGES": true,
+                        "ADD_REACTIONS": true,
+                        "ATTACH_FILES": true,
+                        "READ_MESSAGES": true,
+                        "READ_MESSAGE_HISTORY": true
+                    })
+
+                    settedParent.overwritePermissions(roleAmettreQuiAAcces , {
+                        "READ_MESSAGES": true,
+                        "MANAGE_MESSAGES": true
+                    })
+
+                    settedParent.overwritePermissions(member, {
+                        "SEND_MESSAGES": true,
+                        "ADD_REACTIONS": true,
+                        "ATTACH_FILES": true,
+                        "READ_MESSAGES": true,
+                        "READ_MESSAGE_HISTORY": true
+                    })
+
+                    let embedTicketOpen = new Discord.RichEmbed()
+                    .setTitle("Ticket")
+                    .setColor("#cd5")
+                    .setDescription("ta description")
+                    .setFooter("ton footer")
+
+                    settedParent.send(embedTicketOpen).then( async msg => {
+                        await msg.react("reaction que ta pas encore mis")
+                    })
+                })
+            })
+
+            break;
+
+            case "reaction que ta mis pour le msg.react":
+
+            message.channel.send("**Ce channel va se fermer dans 10secondes...**")
+
+            setTimeout(() => {
+                message.channel.delete()
+            }, cdseconds * 1500)
+
+            let embedTicketClose = new Discord.RichEmbed()
+            .setTitle(`Le ticket : ${message.channel.name} a été fermer.`)
+            .setColor("#cd5")
+            .setFooter("Ton footer")
+
+            let logChannel = message.guild.channels.find("name", "ton salon log")
+
+            logChannel.send(embedTicketClose)
+            break;
+        }
+    }
+})
